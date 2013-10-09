@@ -16,11 +16,15 @@ corr <- function(directory, threshold = 0) {
   res <- c()
   for(i in 1:nrow(data))
   {
-    if(data[i,2] >= threshold) {
+    if(data[i,2] > threshold) {
       dt <- getmonitor(data[i,1],directory)
-      res[nrow(res)+1]<-cor(dt[,3], dt[,4])  
+      res <- c(res,cor(dt$sulfat[complete.cases(dt$sulfat,dt$nitrate)],
+                       dt$nitrate[complete.cases(dt$sulfat,dt$nitrate)]))
       ##print(cor(dt$sulfate, dt$nitrate))
-      print(cor(dt[,2], dt[,3]))
+      #print(
+      #cor(dt$sulfat[complete.cases(dt$sulfat,dt$nitrate)],
+      #dt$nitrate[complete.cases(dt$sulfat,dt$nitrate)])
+      #)
     }
   }
   res
